@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assign Todo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        // Function to handle form submission and show a success message
+        function handleAssign(event) {
+            event.preventDefault(); // Prevent default form submission
+            const form = event.target;
+            const todoId = form.querySelector("#todoId").value;
+            const userId = form.querySelector("#userId").value;
+
+            // Send form data via Fetch API
+            fetch('/assign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `todoId=${todoId}&userId=${userId}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    const messageBox = document.getElementById("successMessage");
+                    messageBox.textContent = "Todo successfully assigned!";
+                    messageBox.style.display = "block";
+                } else {
+                    alert("Todo successfully assigned.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar with Logout Button -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Todo App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="/logout" class="btn btn-outline-danger">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>Assign Todo</h1>
+        <!-- Success Message Box -->
+        <div id="successMessage" class="alert alert-success" style="display: none;"></div>
+
+        <form onsubmit="handleAssign(event)">
+            <!-- Hidden TodoId Field -->
+            <input type="hidden" name="todoId" id="todoId" th:value="${todoId}">
+
+            <div class="mb-3">
+                <label for="todoIdDisplay" class="form-label">Todo ID:</label>
+                <!-- Display Todo ID (readonly) -->
+                <input type="text" class="form-control" id="todoIdDisplay" th:value="${todoId}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="userId" class="form-label">Assign to User:</label>
+                <!-- User dropdown -->
+                <select name="userId" class="form-select" id="userId">
+                    <option th:each="user : ${users}" 
+                            th:value="${user.id}" 
+                            th:text="${user.fullname}">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Assign</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

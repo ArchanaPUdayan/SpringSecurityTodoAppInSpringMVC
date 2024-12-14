@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login - Todo Management App</title>
+    <style>
+        /* General page styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 16px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar .brand {
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Centered container for the login form */
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px 30px;
+            width: 350px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        /* Form styles */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            color: #333333;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="brand">Todo Management App</div>
+        <div>
+            <a href="/" th:href="@{/}">Home</a>
+            <a href="/registration" th:href="@{/registration}">Register</a>
+            <a href="/login" th:href="@{/login}">Login</a>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <h1>Login</h1>
+        
+        <div th:if="${param.logout}">
+        <p style="color: green;">You have been logged out successfully.</p>
+    </div>
+       <form th:action="@{/login}" method="post">
+    <label for="username">Email:</label>
+    <input type="email" name="username" id="username" placeholder="Enter your email" required />
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" placeholder="Enter your password" required />
+
+    <button type="submit">Login</button>
+</form>
+       
+    </div>
+</body>
+</html>
